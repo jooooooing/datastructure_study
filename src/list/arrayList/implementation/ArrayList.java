@@ -2,7 +2,7 @@ package list.arrayList.implementation;
 
 public class ArrayList {
 
-	private int size = 0;
+	private int size = 0; // private로 설정 : 외부에서 size를 바꾸지 못하게 하기 위함
 	private Object[] elementData = new Object[100];
 
 	public boolean addFirst(Object element) {
@@ -35,5 +35,88 @@ public class ArrayList {
 		}
 		return str + "]";
 	}
+
+	public Object remove(int index) {
+		Object removed = elementData[index];
+		for (int i = index + 1; i <= size - 1; i++) {
+			elementData[i - 1] = elementData[i];
+		}
+		size--;
+		elementData[size] = null;
+		return removed;
+
+	}
+
+	public Object removeFirst() {
+		return remove(0);
+	}
+
+	public Object removeLast() {
+		return remove(size - 1);
+	}
+
+	public Object get(int index) {
+		return elementData[index];
+	}
+
+	public int size() {
+		return size;
+	}
+
+	public int indexOf(Object o) {
+		for (int i = 0; i < size; i++) {
+			if (o.equals(elementData[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public ListIterator listIterator() {
+		return new ListIterator();
+	}
+
+	class ListIterator {
+		private int nextIndex = 0;
+		
+		public boolean hasNext() {
+			return nextIndex < size();
+		}
+
+		public Object next() {
+			Object returnData = elementData[nextIndex];
+			nextIndex++;
+			return returnData;
+			
+//			return elementData[nextIndex++];
+		}
+
+		public Object previous() {
+			return elementData[--nextIndex];
+		}
+
+		public boolean hasPrevious() {
+			return nextIndex > 0;
+		}
+
+		public void add(Object element) {
+			ArrayList.this.add(nextIndex++, element);
+			
+		}
+
+		public void remove() {
+			ArrayList.this.remove(nextIndex-1);
+			nextIndex--;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
